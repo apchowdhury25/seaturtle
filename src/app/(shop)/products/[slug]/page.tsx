@@ -10,7 +10,12 @@ async function ProductBody({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const result = await getProduct(slug);
   if (!result.configured) {
-    return <p className="mx-auto max-w-3xl px-4 py-16">The catalog database is not connected, so this product cannot be loaded.</p>;
+    return (
+      <section className="mx-auto max-w-3xl px-4 py-16">
+        <h1 className="font-display text-4xl text-navy">Product unavailable</h1>
+        <p className="mt-4">The catalog database is not connected, so this product cannot be loaded.</p>
+      </section>
+    );
   }
   if (!result.product) notFound();
   const product = result.product;

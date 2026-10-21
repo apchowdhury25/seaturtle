@@ -79,17 +79,28 @@ export function SiteFooter() {
           <ul className="mt-3 grid gap-2 text-sm">
             <li><Link href="/shop">Shop</Link></li>
             <li><Link href="/new">New arrivals</Link></li>
+            <li><Link href="/best-sellers">Best sellers</Link></li>
+            <li><Link href="/jeans">Jeans</Link></li>
+            <li><Link href="/journal">Journal</Link></li>
+            <li><Link href="/mission">Mission</Link></li>
+            <li><Link href="/impact">Impact</Link></li>
             <li><Link href="/sustainability">Sustainability</Link></li>
             <li><Link href="/conservation">Sea turtles</Link></li>
-            <li><Link href="/journal">Journal</Link></li>
           </ul>
         </div>
         <div>
           <p className="text-xs tracking-[0.16em] uppercase text-sand">Service</p>
           <ul className="mt-3 grid gap-2 text-sm">
             <li><Link href="/contact">Contact</Link></li>
+            <li><Link href="/faq">Questions</Link></li>
+            <li><Link href="/size-guide">Size guide</Link></li>
+            <li><Link href="/fabric-care">Fabric and care</Link></li>
+            <li><Link href="/track">Track an order</Link></li>
             <li><Link href="/shipping">Shipping</Link></li>
+            <li><Link href="/shipping-policy">Shipping policy</Link></li>
             <li><Link href="/returns">Returns</Link></li>
+            <li><Link href="/returns-policy">Returns policy</Link></li>
+            <li><Link href="/terms">Terms</Link></li>
             <li><Link href="/privacy">Privacy</Link></li>
             <li><Link href="/accessibility">Accessibility</Link></li>
           </ul>

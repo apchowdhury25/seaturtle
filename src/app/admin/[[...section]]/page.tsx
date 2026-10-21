@@ -21,7 +21,12 @@ function Notice({ notice }: { notice?: string }) {
 async function Desk({ section, notice }: { section: string; notice?: string }) {
   const profile = await getSessionProfile();
   if (!profile || profile.roles.length === 0) {
-    return <p>This desk is for authorized staff. There is no public administrator registration. Ask the owner to grant a role with the bootstrap script, then <Link href="/account/login" className="underline">sign in</Link>.</p>;
+    return (
+      <section>
+        <h1 className="font-display text-4xl text-navy">Staff desk</h1>
+        <p className="mt-4">This desk is for authorized staff. There is no public administrator registration. Ask the owner to grant a role with the bootstrap script, then <Link href="/account/login" className="underline">sign in</Link>.</p>
+      </section>
+    );
   }
   const supabase = await createSessionClient();
   if (!supabase) return <p>Supabase is not configured, so the desk cannot read records.</p>;

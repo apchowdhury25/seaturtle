@@ -7,7 +7,14 @@ import { createSessionClient } from "@/server/supabase";
 async function Invoice({ params }: { params: Promise<{ id: string }> }) {
   const staff = await requireStaff("orders.read");
   const supabase = await createSessionClient();
-  if (!staff || !supabase) return <p>Sign in with an order-reading role to open an invoice.</p>;
+  if (!staff || !supabase) {
+    return (
+      <section>
+        <h1 className="font-display text-4xl text-navy">Invoice</h1>
+        <p className="mt-4">Sign in with an order-reading role to open an invoice.</p>
+      </section>
+    );
+  }
   const { id } = await params;
   const { data } = await supabase.from("orders").select("order_number, email, status, currency, subtotal_minor, discount_minor, shipping_minor, tax_minor, total_minor, created_at, order_items(product_name, sku, quantity, line_total_minor)").eq("id", id).maybeSingle();
   if (!data) notFound();

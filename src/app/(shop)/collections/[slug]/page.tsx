@@ -8,6 +8,13 @@ const PRESETS: Record<string, { title: string; intro: string; gender?: string; p
   "womens-underwear": { title: "Women's Underwear", intro: "Hygiene return rules apply where the law allows.", category: "womens-underwear" },
 };
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const preset = PRESETS[slug];
+  const title = preset?.title ?? slug.replaceAll("-", " ");
+  return { title: title.slice(0, 1).toUpperCase() + title.slice(1) };
+}
+
 async function CollectionBody({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { slug } = await params;
   const preset = PRESETS[slug] ?? { title: slug.replaceAll("-", " "), intro: "Collection filtered by the slug.", category: slug };
