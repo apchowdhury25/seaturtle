@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+/** @type {import("next").NextConfig} */
 
 // React's dev overlay reconstructs server stacks with eval(). Production never calls eval.
 const isDev = process.env.NODE_ENV === "development";
@@ -17,7 +17,7 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
 ].join("; ");
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   output: "standalone",
   poweredByHeader: false,
   cacheComponents: true,

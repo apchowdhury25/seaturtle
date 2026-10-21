@@ -11,6 +11,8 @@ npm ci
 npm run build
 ```
 
+`npm run build` runs `next build --webpack`. Hostinger's Node hosting has glibc 2.28, so the native Next.js compiler cannot load. Webpack uses the WebAssembly fallback. Local development still uses Turbopack.
+
 `output: "standalone"` writes `.next/standalone`. On a VPS:
 
 ```bash
