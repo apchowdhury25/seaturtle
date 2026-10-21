@@ -29,6 +29,8 @@ Put the variables from `.env.example` in the host's secret store. Never commit `
 
 `NEXT_PUBLIC_SITE_URL=https://seaturtleapparel.com`
 
+The value must be a full `https://` address. A word such as `test` stops the build while page metadata is collected.
+
 `APP_ENV=production`
 
 `ALLOW_DEMO_CATALOG` must be unset or `false` in production. The code also refuses the demo catalog when `APP_ENV=production`.

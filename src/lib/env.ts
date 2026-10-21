@@ -10,8 +10,30 @@ export function secretSupabaseKey(): string | undefined {
   return process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 }
 
+const PRODUCTION_ORIGIN = "https://seaturtleapparel.com";
+let warnedInvalidSiteUrl = false;
+
+function absoluteHttpUrl(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) return undefined;
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return undefined;
+    return url.href.replace(/\/$/, "");
+  } catch {
+    return undefined;
+  }
+}
+
 export function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+  const configured = absoluteHttpUrl(process.env.NEXT_PUBLIC_SITE_URL);
+  const fallback = process.env.NODE_ENV === "production" ? PRODUCTION_ORIGIN : "http://localhost:3000";
+  if (configured) return configured;
+  if (!warnedInvalidSiteUrl && process.env.NEXT_PUBLIC_SITE_URL?.trim()) {
+    warnedInvalidSiteUrl = true;
+    console.warn(`[seaturtle] NEXT_PUBLIC_SITE_URL must be an absolute http(s) URL. Received "${process.env.NEXT_PUBLIC_SITE_URL}". Using ${fallback}.`);
+  }
+  return fallback;
 }
 
 export function appEnv(): "development" | "staging" | "production" {
@@ -29,11 +51,11 @@ export function paymentMode(): "test" | "live" {
 }
 
 export function isSupabaseConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && publicSupabaseKey());
+  return Boolean(absoluteHttpUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) && publicSupabaseKey());
 }
 
 export function isServiceRoleConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && secretSupabaseKey());
+  return Boolean(absoluteHttpUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) && secretSupabaseKey());
 }
 
 export function configurationReport(): Array<{ service: string; status: ServiceStatus; detail: string }> {

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Fraunces, Outfit } from "next/font/google";
 import { CookieNotice } from "@/components/cookie-notice";
+import { siteUrl } from "@/lib/env";
 import "./globals.css";
 
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-fraunces" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://seaturtleapparel.com"),
+  metadataBase: new URL(siteUrl()),
   title: { default: "Sea Turtle Apparel", template: "%s · Sea Turtle Apparel" },
   description: "Premium clothing with a commitment to responsible sourcing, traceable manufacturing, and healthier oceans.",
   applicationName: "Sea Turtle Apparel",
