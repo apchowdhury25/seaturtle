@@ -1,0 +1,7 @@
+import { CatalogScreen } from "@/components/catalog-screen";
+
+export const metadata = { title: "Shop All" };
+
+export default function Page({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  return <CatalogScreen title="Shop All" intro="Active products from the catalog." preset={{}} searchParams={searchParams} />;
+}

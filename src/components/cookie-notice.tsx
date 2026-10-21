@@ -1,0 +1,50 @@
+"use client";
+
+import { useSyncExternalStore } from "react";
+import Link from "next/link";
+
+const CHANGE = "sta-cookie";
+
+function subscribe(onChange: () => void) {
+  window.addEventListener(CHANGE, onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    window.removeEventListener(CHANGE, onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+function snapshot() {
+  try {
+    return window.localStorage.getItem("sta_cookie") ?? "";
+  } catch {
+    return "rejected";
+  }
+}
+
+function serverSnapshot() {
+  return "pending";
+}
+
+export function CookieNotice() {
+  const choice = useSyncExternalStore(subscribe, snapshot, serverSnapshot);
+  if (choice !== "") return null;
+  function choose(value: "accepted" | "rejected") {
+    window.localStorage.setItem("sta_cookie", value);
+    window.dispatchEvent(new Event(CHANGE));
+  }
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-white p-4 shadow-[0_-8px_24px_rgba(14,36,51,0.08)]" role="dialog" aria-labelledby="cookie-title">
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p id="cookie-title" className="font-display text-lg text-navy">Cookies</p>
+          <p className="max-w-2xl text-sm text-muted">The cart cookie is essential. Optional analytics stay off unless you accept them. <Link href="/cookies" className="underline">Cookie preferences</Link></p>
+        </div>
+        <div className="flex gap-2">
+          <button type="button" className="h-10 border border-navy px-4 text-sm" onClick={() => choose("rejected")}>Reject optional</button>
+          <button type="button" className="h-10 bg-navy px-4 text-sm text-ivory" onClick={() => choose("accepted")}>Accept optional</button>
+        </div>
+      </div>
+    </div>
+  );
+}
