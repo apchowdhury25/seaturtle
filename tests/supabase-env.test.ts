@@ -6,6 +6,7 @@ const KEYS = [
   "SUPABASE_URL",
   "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
   "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+  "SUPABASE_ANON_KEY",
   "SUPABASE_API_KEY",
   "SUPABASE_SECRET_KEY",
 ];
@@ -27,9 +28,13 @@ describe("Hostinger Supabase names", () => {
     expect(supabaseProjectUrl()).toBeUndefined();
   });
 
-  it("treats SUPABASE_API_KEY as the public key and ignores a secret placed there", () => {
-    process.env.SUPABASE_API_KEY = "anon-key";
+  it("treats Hostinger's SUPABASE_ANON_KEY as the public key and ignores a secret placed there", () => {
+    process.env.SUPABASE_ANON_KEY = "anon-key";
     expect(supabasePublicKey()).toBe("anon-key");
+    delete process.env.SUPABASE_ANON_KEY;
+    process.env.SUPABASE_API_KEY = "legacy-anon-key";
+    expect(supabasePublicKey()).toBe("legacy-anon-key");
+    delete process.env.SUPABASE_API_KEY;
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "publishable-key";
     expect(supabasePublicKey()).toBe("publishable-key");
     delete process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;

@@ -22,13 +22,14 @@ export function supabaseProjectUrl(): string | undefined {
 
 /**
  * Publishable or anon key.
- * SUPABASE_API_KEY is Hostinger's alias for that public key. A secret key in that slot is ignored.
+ * Hostinger's database wizard sets SUPABASE_ANON_KEY. SUPABASE_API_KEY is the older sample name.
+ * A secret key in either alias is ignored.
  */
 export function supabasePublicKey(): string | undefined {
   const dedicated =
     present(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) || present(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
   if (dedicated) return dedicated;
-  const alias = present(process.env.SUPABASE_API_KEY);
+  const alias = present(process.env.SUPABASE_ANON_KEY) || present(process.env.SUPABASE_API_KEY);
   if (!alias || alias.startsWith("sb_secret_")) return undefined;
   return alias;
 }

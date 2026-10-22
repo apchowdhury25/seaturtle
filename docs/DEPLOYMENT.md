@@ -54,7 +54,7 @@ The value must be a full `https://` address. A word such as `test` stops the bui
 
 Keep the database on Supabase. Do not open Postgres to the public internet. The app uses the HTTPS API.
 
-`package.json` already depends on `@supabase/supabase-js` at `^2.118.0` and `@supabase/ssr`. That satisfies Hostinger's connect screen, which shows `^2.0.0`. Do not add a root `db.js`. The server creates the client. If that screen stores `SUPABASE_URL` and `SUPABASE_API_KEY`, the app reads them as the project URL and the publishable or anon key. Put the service-role key in `SUPABASE_SECRET_KEY` or `SUPABASE_SERVICE_ROLE_KEY`.
+`package.json` already depends on `@supabase/supabase-js` at `^2.118.0` and `@supabase/ssr`. That satisfies Hostinger's connect screen, which shows `^2.0.0`. Do not add a root `db.js`. The server creates the client. Hostinger's database wizard stores `SUPABASE_URL` and `SUPABASE_ANON_KEY`. The app reads those as the project URL and the anon key. `SUPABASE_API_KEY` is accepted as the same public key. Put the service-role key in `SUPABASE_SECRET_KEY` or `SUPABASE_SERVICE_ROLE_KEY`. The wizard does not set that secret, so checkout and admin writes stay off until it is added.
 
 Run migrations before the first production boot. See [DATABASE.md](DATABASE.md).
 

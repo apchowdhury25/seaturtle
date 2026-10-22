@@ -6,7 +6,7 @@ Features below are implemented. They stay inactive until the listed credential e
 
 | Service | Variables | What it unlocks |
 | --- | --- | --- |
-| Supabase URL and publishable/anon key | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` or `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Hostinger's `SUPABASE_URL` and `SUPABASE_API_KEY` are server aliases for the URL and the public key. | Public catalog reads and customer sign-in |
+| Supabase URL and publishable/anon key | `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` or `NEXT_PUBLIC_SUPABASE_ANON_KEY`. Hostinger's wizard sets `SUPABASE_URL` and `SUPABASE_ANON_KEY`. `SUPABASE_API_KEY` is the same public key. | Public catalog reads and customer sign-in |
 | Supabase server secret | `SUPABASE_SECRET_KEY` or `SUPABASE_SERVICE_ROLE_KEY` | Guest carts, checkout, webhooks, private uploads, owner bootstrap |
 | Site URL | `NEXT_PUBLIC_SITE_URL` | Canonical links, payment return URLs, email links |
 
