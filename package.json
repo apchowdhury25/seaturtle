@@ -2,10 +2,13 @@
   "name": "seaturtle",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
-    "start": "next start",
+    "build": "next build --webpack && node scripts/prepare-hostinger.mjs",
+    "start": "node scripts/start-production.mjs",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
@@ -48,13 +51,11 @@
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@vitejs/plugin-react": "^6.1.2",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
     "jsdom": "^29.1.1",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vite": "^8.3.4",
     "vitest": "^5.0.5"
   }
 }

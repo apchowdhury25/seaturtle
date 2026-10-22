@@ -18,7 +18,7 @@ const contentSecurityPolicy = [
   "frame-ancestors 'none'",
 ].join("; ");
 
-const nextConfig = {
+export default {
   output: "standalone",
   poweredByHeader: false,
   // The dev badge sits on the cookie actions in a phone viewport. Errors still surface.
@@ -54,5 +54,3 @@ const nextConfig = {
     },
   },
 };
-
-export default nextConfig;

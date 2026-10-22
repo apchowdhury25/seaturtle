@@ -11,17 +11,24 @@ npm ci
 npm run build
 ```
 
-`npm run build` runs `next build --webpack`. Hostinger's Node hosting has glibc 2.28, so the native Next.js compiler cannot load. Webpack uses the WebAssembly fallback. Local development still uses Turbopack.
+`npm run build` runs `next build --webpack`, then copies `public` and `.next/static` into `.next/standalone` and makes that server listen on `0.0.0.0`. Hostinger's Node hosting has glibc 2.28, so the native Next.js compiler cannot load. Webpack uses the WebAssembly fallback. Local development still uses Turbopack.
 
-`output: "standalone"` writes `.next/standalone`. On a VPS:
+Hostinger's Node.js plan must run this as a Next.js server. A static HTML import returns 500 because the panel starts a Next.js process against files that are not a Next server. In Deployments → Deployment settings, set:
 
-```bash
-node .next/standalone/server.js
-```
+| Field | Value |
+| --- | --- |
+| Application type | Next.js (`next`) |
+| Node.js version | 22 |
+| Build script | `build` |
+| Output directory | `.next` |
+| Entry file | leave empty |
+| Root directory | the repository root |
 
-Set `PORT=3000` and `HOSTNAME=0.0.0.0`. Keep the process up with systemd or PM2. Node.js 22 or newer.
+Save and redeploy from the Git branch. Do not upload a static zip. Checkout, the cart, accounts, and payment webhooks need the Node server. Hostinger ignores `output: "export"` when the application type is Next.js.
 
-Copy `public` and `.next/static` next to the standalone server if the host does not do that for you. Next.js documents this layout for standalone builds.
+`package.json` asks for Node.js 22 or newer. In hPanel, choose 22. The machine sets `HOSTNAME` to its own name; the prepared server ignores that and listens on every interface so the panel proxy can connect.
+
+On a VPS, `npm run start` launches `.next/standalone/server.js`. Node.js 22 or newer. Keep the process up with systemd or PM2.
 
 ## Environment
 
