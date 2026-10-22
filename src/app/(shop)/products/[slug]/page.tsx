@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { LookbookProduct } from "@/components/lookbook-product";
 import { ProductGallery } from "@/components/product-gallery";
 import { ProductPurchase } from "@/components/product-purchase";
 import { formatMinor, toMajorString } from "@/lib/commerce";
@@ -9,6 +10,30 @@ import { getCatalog, getProduct } from "@/server/data";
 async function ProductBody({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const result = await getProduct(slug);
+  if (result.source === "lookbook") {
+    if (!result.product) notFound();
+    const product = result.product;
+    const related = await getCatalog({ collection: product.line, page: 1 });
+    const json = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      description: `${product.shortDescription} Planned retail price. Not currently in inventory.`,
+      image: product.images.map((image) => image.src).filter(Boolean),
+      offers: {
+        "@type": "Offer",
+        priceCurrency: product.currency,
+        price: toMajorString(product.priceMinor, product.currency),
+        availability: "https://schema.org/OutOfStock",
+      },
+    };
+    return (
+      <>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json) }} />
+        <LookbookProduct product={product} related={related.cards.filter((card) => card.slug !== product.slug)} />
+      </>
+    );
+  }
   if (!result.configured) {
     return (
       <section className="mx-auto max-w-3xl px-4 py-16">

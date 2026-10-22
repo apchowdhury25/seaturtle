@@ -25,7 +25,7 @@ export function ProductGallery({ images, name }: { images: GalleryImage[]; name:
         <button
           key={`${image.src ?? "empty"}-${index}`}
           type="button"
-          className="relative aspect-[3/4] bg-sand text-left"
+          className="relative aspect-[2/3] bg-sand text-left"
           onClick={() => image.src && setOpen(index)}
           disabled={!image.src}
           aria-label={image.src ? `Enlarge image of ${image.alt || name}` : undefined}
@@ -34,9 +34,12 @@ export function ProductGallery({ images, name }: { images: GalleryImage[]; name:
         </button>
       ))}
       {current?.src ? (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-navy/85 p-4" role="dialog" aria-modal="true" aria-label="Enlarged product image">
-          <button type="button" className="absolute top-4 right-4 h-11 border border-ivory px-4 text-sm text-ivory" onClick={() => setOpen(null)}>Close</button>
-          <div className="relative h-[80vh] w-full max-w-3xl">
+        <div className="fixed inset-0 z-[80] flex flex-col bg-navy" role="dialog" aria-modal="true" aria-label="Enlarged product image">
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <p className="min-w-0 truncate text-sm text-ivory">{name}</p>
+            <button type="button" className="h-11 shrink-0 border border-ivory px-4 text-sm text-ivory" onClick={() => setOpen(null)}>Close</button>
+          </div>
+          <div className="relative min-h-0 flex-1">
             <Image src={current.src} alt={current.alt || name} fill className="object-contain" sizes="100vw" priority />
           </div>
         </div>

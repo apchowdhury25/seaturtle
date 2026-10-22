@@ -21,7 +21,7 @@ export function MobileNav() {
         <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
       </button>
       {open ? (
-        <nav id="mobile-navigation" className="absolute inset-x-0 top-full z-40 border-b border-line bg-ivory px-5 py-6" aria-label="Mobile">
+        <nav id="mobile-navigation" className="absolute inset-x-0 top-full z-40 max-h-[calc(100svh-8rem)] overflow-y-auto border-b border-line bg-ivory px-5 py-6" aria-label="Mobile">
           <div className="mb-5">
             <SiteSearch id="mobile-search" />
           </div>

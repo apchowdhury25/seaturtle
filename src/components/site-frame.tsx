@@ -13,16 +13,16 @@ async function AnnouncementBar() {
   const messages = await getAnnouncements();
   const line = messages.length ? messages.join("  ·  ") : "Thoughtfully Made. Responsibly Sourced.";
   return (
-    <p className="w-full max-w-full bg-navy px-4 py-2 text-center text-[10px] leading-5 break-words whitespace-normal text-ivory uppercase sm:text-[11px] sm:tracking-[0.16em]">{line}</p>
+    <p className="w-full max-w-full bg-navy px-4 py-2 text-center text-[10px] leading-5 break-words whitespace-normal text-ivory uppercase sm:text-[11px] sm:tracking-[0.14em]">{messages.length ? line : "The Coastal Collection · Responsibly sourced"}</p>
   );
 }
 
 async function CartCount() {
   const count = await readCartCount();
   return (
-    <Link href="/cart" className="relative grid h-11 w-11 shrink-0 place-items-center" aria-label={`Shopping cart, ${count} items`}>
+    <Link href="/cart" className="inline-flex h-11 shrink-0 items-center gap-1 px-1.5 text-sm whitespace-nowrap" aria-label={`Shopping cart, ${count} items`}>
       <span aria-hidden>Bag</span>
-      <span className="absolute top-1 right-1 min-w-4 bg-turtle px-1 text-center text-[10px] text-ivory">{count}</span>
+      <span className="bg-turtle px-1 text-[10px] leading-4 text-ivory">{count}</span>
     </Link>
   );
 }
@@ -50,10 +50,10 @@ export function SiteHeader() {
             <SiteSearch id="site-search" />
           </div>
           <MobileNav />
-          <Suspense fallback={<Link href="/cart" className="grid h-11 w-11 shrink-0 place-items-center text-sm">Bag</Link>}>
+          <Suspense fallback={<Link href="/cart" className="inline-flex h-11 shrink-0 items-center px-1.5 text-sm">Bag</Link>}>
             <CartCount />
           </Suspense>
-          <Link href="/account" className="grid h-11 shrink-0 place-items-center px-2 text-sm">Account</Link>
+          <Link href="/account" className="inline-flex h-11 shrink-0 items-center px-1.5 text-sm whitespace-nowrap">Account</Link>
           <Link href="/account/wishlist" className="hidden h-11 place-items-center px-2 text-sm sm:grid">Saved</Link>
         </div>
       </div>
@@ -80,7 +80,13 @@ export function SiteFooter() {
             <li><Link href="/shop">Shop</Link></li>
             <li><Link href="/new">New arrivals</Link></li>
             <li><Link href="/best-sellers">Best sellers</Link></li>
+            <li><Link href="/pants">Pants</Link></li>
+            <li><Link href="/shirts">Shirts</Link></li>
             <li><Link href="/jeans">Jeans</Link></li>
+            <li><Link href="/outerwear">Outerwear</Link></li>
+            <li><Link href="/bundles">Bundles</Link></li>
+            <li><Link href="/coast">The coast</Link></li>
+            <li><Link href="/about">Our story</Link></li>
             <li><Link href="/journal">Journal</Link></li>
             <li><Link href="/mission">Mission</Link></li>
             <li><Link href="/impact">Impact</Link></li>

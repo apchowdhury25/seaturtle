@@ -2,8 +2,8 @@ export const BRAND = {
   name: "Sea Turtle Apparel",
   tagline: "Wear the Change. Protect Our Oceans.",
   support: "Premium Style. Responsible Choices. A Healthier Planet.",
-  heroTitle: "Wear What You Believe In.",
-  heroText: "Discover thoughtfully designed essentials made with a commitment to quality, responsible sourcing, and a healthier planet.",
+  heroTitle: "The Coastal Collection",
+  heroText: "Cotton, linen, and denim for the water’s edge. Styles and prices in the lookbook are planned. A sourcing record is published when it exists.",
   mission: `Fashion should make people feel good without making the planet pay the price.
 
 At Sea Turtle Apparel, we believe that the clothes we wear can represent something greater than style. They can represent respect for the ocean, responsibility toward the land, cleaner manufacturing, and a commitment to the life we share this planet with.
@@ -218,6 +218,7 @@ export const PAGES: Record<string, PageCopy> = {
 
 export const FAQ = [
   { q: "Are the photographs of the factory or of current production?", a: "No. Campaign photographs are provisional and labeled as such. They are not pictures of a certified factory, staff, conservation partners, or finished production samples unless a product record says so." },
+  { q: "Are the Coastal Collection pieces in stock?", a: "The house lookbook shows planned styles and planned retail prices while the catalog database is offline. Those pieces are not reserved stock, and they cannot be added to a bag until inventory is connected." },
   { q: "Is the Dhaka factory certified?", a: "No certification is claimed. The facility is planned. Certifications appear only after a record is verified." },
   { q: "Does my purchase donate money to a charity?", a: "No. A purchase is a sale to Sea Turtle Apparel. Conservation contributions, if configured, are company contributions. Accrued is not the same as paid." },
   { q: "Can I check out as a guest?", a: "Yes. You can also create an account. Guest order details require the tracking token from checkout, not only the order number." },
@@ -226,18 +227,27 @@ export const FAQ = [
 ];
 
 export const COLLECTIONS = [
-  { href: "/collections/mens-denim", title: "Men's Denim", image: "/images/editorial/mens-denim.jpg", alt: "Man in indigo jeans standing on a dune. Provisional campaign photograph." },
-  { href: "/collections/womens-denim", title: "Women's Denim", image: "/images/editorial/womens-denim.jpg", alt: "Woman in jeans beside the coast. Provisional campaign photograph." },
-  { href: "/polos", title: "Premium Cotton Polos", image: "/images/editorial/polo.jpg", alt: "Man wearing a navy polo outdoors. Provisional campaign photograph." },
-  { href: "/dresses", title: "Women's Dresses", image: "/images/editorial/dress.jpg", alt: "Woman in an ivory shirt dress on a boardwalk. Provisional campaign photograph." },
-  { href: "/mens-underwear", title: "Men's Underwear", image: "/images/editorial/underwear.jpg", alt: "Folded charcoal and sand cotton underwear on linen. Product still life, not worn." },
-  { href: "/womens-underwear", title: "Women's Underwear", image: "/images/editorial/still-life.jpg", alt: "Folded natural-fiber garments and cotton cloth. Still life, not a worn garment." },
+  { href: "/pants", title: "Pants", image: "/images/lookbook/drift-chino.jpg", alt: "Man in a sand chino and ivory shirt on a dune. Campaign photograph for the planned Drift Stretch Chino." },
+  { href: "/shirts", title: "Shirts", image: "/images/lookbook/harbor-overshirt.jpg", alt: "Man in a sage overshirt on a dune. Campaign photograph for the planned Harbor Coast Overshirt." },
+  { href: "/underwear", title: "Underwear", image: "/images/lookbook/tide-boxer.jpg", alt: "Folded charcoal cotton boxer briefs on linen. Catalog still life, not worn." },
+  { href: "/outerwear", title: "Outerwear", image: "/images/lookbook/harbor-chore-jacket.jpg", alt: "Man in a navy chore jacket on a dune. Campaign photograph for the planned Harbor Chore Jacket." },
+  { href: "/dresses", title: "Dresses", image: "/images/lookbook/dune-shirt-dress.jpg", alt: "Woman in an ivory linen shirt dress on a boardwalk. Campaign photograph for the planned Dune Shirt Dress." },
+  { href: "/bundles", title: "Bundles", image: "/images/lookbook/reef-weekday-kit.jpg", alt: "Folded ivory tee, sand chino, and sand socks. Catalog still life of the planned weekday kit." },
+] as const;
+
+export const LINE_LINKS = [
+  { href: "/collections/reef", title: "Reef", text: "Cotton and linen for every day." },
+  { href: "/collections/drift", title: "Drift", text: "Pants and denim." },
+  { href: "/collections/tide", title: "Tide", text: "Underwear and socks, shown folded." },
+  { href: "/collections/harbor", title: "Harbor", text: "Polos, shirts, and jackets." },
+  { href: "/collections/dune", title: "Dune", text: "Lounge clothes and the shirt dress." },
 ] as const;
 
 export const NAV = [
-  { href: "/shop", label: "Shop All" },
+  { href: "/new", label: "New" },
   { href: "/men", label: "Men" },
   { href: "/women", label: "Women" },
-  { href: "/sustainability", label: "Sustainability" },
-  { href: "/about", label: "Our Story" },
+  { href: "/underwear", label: "Underwear" },
+  { href: "/bundles", label: "Bundles" },
+  { href: "/shop", label: "Shop All" },
 ];

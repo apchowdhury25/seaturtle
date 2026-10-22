@@ -38,10 +38,10 @@ export function SiteSearch({ id }: { id: string }) {
         placeholder="Search"
         autoComplete="off"
         onChange={(event) => onChange(event.target.value)}
-        className="h-10 w-full border border-line bg-white px-3 text-sm md:w-36"
+        className="h-11 w-full border border-line bg-white px-3 text-base md:h-10 md:w-36 md:text-sm"
       />
       {items.length > 0 ? (
-        <ul className="absolute top-11 z-40 w-64 border border-line bg-white p-2 text-sm shadow-sm" role="listbox" aria-label="Search suggestions">
+        <ul className="absolute top-12 right-0 z-40 w-[min(16rem,calc(100vw-2rem))] border border-line bg-white p-2 text-sm shadow-sm" role="listbox" aria-label="Search suggestions">
           {items.map((item) => (
             <li key={item.slug}>
               <Link href={`/products/${item.slug}`} className="block px-2 py-2 hover:bg-sand">{item.name}</Link>

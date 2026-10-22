@@ -1,6 +1,7 @@
 import "server-only";
 
 import { connection } from "next/server";
+import { filterLookbook, getLookbookProduct, type LookbookProduct } from "@/content/lookbook";
 import { allowDemoCatalog } from "@/lib/env";
 import { activeUnitPrice, availableToSell } from "@/lib/commerce";
 import { createAdminClient, createPublicClient, createSessionClient } from "@/server/supabase";
@@ -35,6 +36,38 @@ export type CatalogCard = {
   isDemonstration: boolean;
   categorySlug: string | null;
 };
+
+export type CatalogSource = "database" | "lookbook";
+
+export type CatalogResult = {
+  configured: boolean;
+  source: CatalogSource;
+  cards: CatalogCard[];
+  total: number;
+  page: number;
+};
+
+function lookbookCard(product: LookbookProduct): CatalogCard {
+  return {
+    id: `lookbook-${product.slug}`,
+    slug: product.slug,
+    name: product.name,
+    shortDescription: product.shortDescription,
+    currency: "USD",
+    priceMinor: product.priceMinor,
+    compareAtMinor: product.compareAtMinor,
+    image: product.image,
+    alt: product.alt,
+    isDemonstration: false,
+    categorySlug: product.categorySlug,
+  };
+}
+
+function lookbookCatalog(filters: CatalogFilters, page: number): CatalogResult {
+  const cards = filterLookbook(filters).map(lookbookCard);
+  const start = (page - 1) * 12;
+  return { configured: false, source: "lookbook", cards: cards.slice(start, start + 12), total: cards.length, page };
+}
 
 type VariantRow = {
   id: string;
@@ -150,10 +183,10 @@ async function catalogClient() {
   return createPublicClient();
 }
 
-export async function getCatalog(filters: CatalogFilters): Promise<{ configured: boolean; cards: CatalogCard[]; total: number; page: number }> {
+export async function getCatalog(filters: CatalogFilters): Promise<CatalogResult> {
   const client = await catalogClient();
   const page = Math.max(filters.page ?? 1, 1);
-  if (!client) return { configured: false, cards: [], total: 0, page };
+  if (!client) return lookbookCatalog(filters, page);
   const needsVariantJoin = Boolean(filters.size || filters.color);
   let select = PRODUCT_SELECT;
   if (filters.category) select = select.replace("categories (slug, name)", "categories!inner(slug, name)");
@@ -164,6 +197,10 @@ export async function getCatalog(filters: CatalogFilters): Promise<{ configured:
   if (filters.gender) query = query.eq("gender", filters.gender);
   if (filters.productType) query = query.eq("product_type", filters.productType);
   if (filters.category) query = query.eq("categories.slug", filters.category);
+  if (filters.collection) {
+    const line = filters.collection.replace(/[^a-z-]/g, "").slice(0, 40);
+    if (line) query = query.contains("tags", [line]);
+  }
   if (filters.size) query = query.eq("product_variants.size_label", filters.size);
   if (filters.color) query = query.ilike("product_variants.color_name", filters.color);
   if (filters.material) {
@@ -180,7 +217,7 @@ export async function getCatalog(filters: CatalogFilters): Promise<{ configured:
   const from = (page - 1) * 12;
   const needsMemory = filters.min !== undefined || filters.max !== undefined || Boolean(filters.availability);
   const { data, count, error } = needsMemory ? await query.limit(120) : await query.range(from, from + 11);
-  if (error || !data) return { configured: true, cards: [], total: 0, page };
+  if (error || !data) return { configured: true, source: "database", cards: [], total: 0, page };
   let cards = (data as unknown as ProductRow[]).map(toCard);
   if (filters.min !== undefined || filters.max !== undefined || filters.availability) {
     cards = (data as unknown as ProductRow[])
@@ -207,20 +244,59 @@ export async function getCatalog(filters: CatalogFilters): Promise<{ configured:
     if (filters.sort === "price-desc") cards.sort((a, b) => b.priceMinor - a.priceMinor);
     const start = (page - 1) * 12;
     const sliced = cards.slice(start, start + 12);
-    return { configured: true, cards: sliced, total: cards.length, page };
+    return { configured: true, source: "database", cards: sliced, total: cards.length, page };
   }
   if (filters.sort === "price-asc") cards.sort((a, b) => a.priceMinor - b.priceMinor);
   if (filters.sort === "price-desc") cards.sort((a, b) => b.priceMinor - a.priceMinor);
-  return { configured: true, cards, total: count ?? cards.length, page };
+  return { configured: true, source: "database", cards, total: count ?? cards.length, page };
 }
 
 export async function getProduct(slug: string) {
   const client = await catalogClient();
-  if (!client) return { configured: false, product: null };
+  if (!client) {
+    const found = getLookbookProduct(slug);
+    if (!found) return { configured: false, source: "lookbook" as const, product: null };
+    return {
+      configured: false,
+      source: "lookbook" as const,
+      product: {
+        ...lookbookCard(found),
+        description: found.description,
+        material: found.material,
+        fabricWeight: found.fabricWeight,
+        fabricOrigin: found.fabricOrigin,
+        manufacturingCountry: null as string | null,
+        manufacturingFacility: null as string | null,
+        fit: found.fit,
+        care: found.care,
+        sustainability: found.sustainability,
+        seoTitle: found.name,
+        seoDescription: found.shortDescription,
+        images: [{ src: found.image, alt: found.alt }],
+        variants: [] as Array<{
+          id: string;
+          sku: string;
+          color: string;
+          hex: string | null;
+          size: string;
+          priceMinor: number;
+          regularMinor: number;
+          currency: string;
+          available: number;
+          measurements: Record<string, string>;
+        }>,
+        colors: found.colors,
+        sizes: found.sizes,
+        line: found.line,
+        picturedColor: found.picturedColor,
+        includes: found.includes ?? [],
+      },
+    };
+  }
   let query = client.from("products").select(PRODUCT_SELECT).eq("slug", slug).eq("status", "active");
   if (!allowDemoCatalog()) query = query.eq("is_demonstration", false);
   const { data } = await query.maybeSingle();
-  if (!data) return { configured: true, product: null };
+  if (!data) return { configured: true, source: "database" as const, product: null };
   const row = data as ProductRow;
   const variants = row.product_variants
     .filter((variant) => variant.status === "active")
@@ -247,6 +323,7 @@ export async function getProduct(slug: string) {
     });
   return {
     configured: true,
+    source: "database" as const,
     product: {
       ...toCard(row),
       description: row.description,
@@ -306,7 +383,12 @@ export async function getSessionProfile() {
 export async function searchSuggestions(q: string): Promise<Array<{ name: string; slug: string }>> {
   await connection();
   const client = await catalogClient();
-  if (!client || q.trim().length < 2) return [];
+  if (q.trim().length < 2) return [];
+  if (!client) {
+    const safe = q.replace(/[%_,.()]/g, "").slice(0, 40);
+    if (!safe) return [];
+    return filterLookbook({ q: safe }).slice(0, 6).map((item) => ({ name: item.name, slug: item.slug }));
+  }
   const safe = q.replace(/[%_,.()]/g, "").slice(0, 40);
   if (!safe) return [];
   let query = client.from("products").select("name, slug").eq("status", "active").ilike("name", `%${safe}%`).limit(6);

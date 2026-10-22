@@ -30,9 +30,9 @@ async function CatalogResults({ preset, searchParams }: { preset: CatalogFilters
   const pages = Math.max(1, Math.ceil(result.total / 12));
   return (
     <div>
-      <form className="mt-8 grid gap-3 border border-line bg-white p-4 md:grid-cols-6" method="get">
+      <form className="mt-8 grid grid-cols-2 gap-3 border border-line bg-white p-4 md:grid-cols-6" method="get">
         <label className="text-xs tracking-wide text-muted uppercase">Sort
-          <select name="sort" defaultValue={sort} className="mt-1 h-10 w-full border border-line bg-ivory px-2 text-sm normal-case">
+          <select name="sort" defaultValue={sort} className="mt-1 h-11 w-full border border-line bg-ivory px-2 text-base normal-case md:text-sm">
             <option value="featured">Featured</option>
             <option value="newest">Newest</option>
             <option value="price-asc">Price, low to high</option>
@@ -41,44 +41,54 @@ async function CatalogResults({ preset, searchParams }: { preset: CatalogFilters
           </select>
         </label>
         <label className="text-xs tracking-wide text-muted uppercase">Size
-          <input name="size" defaultValue={firstParam(params.size) ?? ""} className="mt-1 h-10 w-full border border-line px-2 text-sm" />
+          <input name="size" defaultValue={firstParam(params.size) ?? ""} className="mt-1 h-11 w-full border border-line px-2 text-base md:text-sm" />
         </label>
         <label className="text-xs tracking-wide text-muted uppercase">Color
-          <input name="color" defaultValue={firstParam(params.color) ?? ""} className="mt-1 h-10 w-full border border-line px-2 text-sm" />
+          <input name="color" defaultValue={firstParam(params.color) ?? ""} className="mt-1 h-11 w-full border border-line px-2 text-base md:text-sm" />
         </label>
         <label className="text-xs tracking-wide text-muted uppercase">Material
-          <input name="material" defaultValue={firstParam(params.material) ?? ""} className="mt-1 h-10 w-full border border-line px-2 text-sm" />
+          <input name="material" defaultValue={firstParam(params.material) ?? ""} className="mt-1 h-11 w-full border border-line px-2 text-base md:text-sm" />
         </label>
         <label className="text-xs tracking-wide text-muted uppercase">Availability
-          <select name="availability" defaultValue={firstParam(params.availability) ?? ""} className="mt-1 h-10 w-full border border-line bg-ivory px-2 text-sm normal-case">
+          <select name="availability" defaultValue={firstParam(params.availability) ?? ""} className="mt-1 h-11 w-full border border-line bg-ivory px-2 text-base normal-case md:text-sm">
             <option value="">Any</option>
             <option value="in">In stock</option>
             <option value="out">Out of stock</option>
           </select>
         </label>
-        <div className="flex items-end">
-          <button className="h-10 w-full bg-navy text-sm text-ivory">Apply</button>
+        <div className="col-span-2 flex items-end md:col-span-1">
+          <button className="h-11 w-full bg-navy text-sm text-ivory">Apply</button>
         </div>
         <label className="text-xs tracking-wide text-muted uppercase md:col-span-2">Minimum USD
-          <input name="min" inputMode="decimal" defaultValue={firstParam(params.min) ?? ""} className="mt-1 h-10 w-full border border-line px-2 text-sm" />
+          <input name="min" inputMode="decimal" defaultValue={firstParam(params.min) ?? ""} className="mt-1 h-11 w-full border border-line px-2 text-base md:text-sm" />
         </label>
         <label className="text-xs tracking-wide text-muted uppercase md:col-span-2">Maximum USD
-          <input name="max" inputMode="decimal" defaultValue={firstParam(params.max) ?? ""} className="mt-1 h-10 w-full border border-line px-2 text-sm" />
+          <input name="max" inputMode="decimal" defaultValue={firstParam(params.max) ?? ""} className="mt-1 h-11 w-full border border-line px-2 text-base md:text-sm" />
         </label>
         {preset.q ? <input type="hidden" name="q" value={preset.q} /> : null}
       </form>
-      <p className="mt-4 text-sm text-muted">{result.configured ? `${result.total} published pieces` : "The catalog database is not connected."} Price filters use USD. Other currencies are not converted.</p>
+      <p className="mt-4 text-sm text-muted">
+        {result.source === "lookbook"
+          ? `House lookbook · ${result.total} planned styles. Prices are planned retail prices in USD. Nothing here is reserved stock, and checkout stays closed until the catalog database is connected.`
+          : result.configured
+            ? `${result.total} published pieces. Price filters use USD. Other currencies are not converted.`
+            : "The catalog database is not connected. Price filters use USD. Other currencies are not converted."}
+      </p>
       {result.cards.length === 0 ? (
         <div className="mt-8 border border-line bg-sand/40 p-8">
-          <p className="font-display text-3xl text-navy">Nothing is published in this view.</p>
-          <p className="mt-3 max-w-xl text-sm text-muted">Active products appear here from the database. Demonstration products stay hidden unless a non-production environment explicitly allows them. No sample garment is offered for sale in their place.</p>
+          <p className="font-display text-3xl text-navy">{result.source === "lookbook" ? "No planned style matches this view." : "Nothing is published in this view."}</p>
+          <p className="mt-3 max-w-xl text-sm text-muted">
+            {result.source === "lookbook"
+              ? "The lookbook is not inventory. Choosing “in stock” returns nothing, because these styles are not on hand."
+              : "Active products appear here from the database. Demonstration products stay hidden unless a non-production environment explicitly allows them. No sample garment is offered for sale in their place."}
+          </p>
         </div>
       ) : (
         <ul className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {result.cards.map((card) => (
             <li key={card.id}>
               <Link href={`/products/${card.slug}`} className="group block">
-                <div className="relative aspect-[3/4] bg-sand">
+                <div className="relative aspect-[2/3] bg-sand">
                   {card.image ? (
                     <Image src={card.image} alt={card.alt} fill sizes="(min-width: 1024px) 30vw, 50vw" className="object-cover" />
                   ) : (

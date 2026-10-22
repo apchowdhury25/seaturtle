@@ -20,6 +20,8 @@ const contentSecurityPolicy = [
 const nextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  // The dev badge sits on the cookie actions in a phone viewport. Errors still surface.
+  devIndicators: false,
   cacheComponents: true,
   partialPrefetching: true,
   images: {

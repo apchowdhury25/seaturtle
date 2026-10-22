@@ -3,6 +3,7 @@ import { siteUrl } from "@/lib/env";
 
 const paths = [
   "", "/shop", "/new", "/best-sellers", "/men", "/women", "/jeans", "/polos", "/dresses",
+  "/pants", "/shirts", "/outerwear", "/underwear", "/bundles", "/socks", "/lounge", "/coast",
   "/mens-underwear", "/womens-underwear", "/about", "/mission", "/sustainability", "/sourcing",
   "/manufacturing", "/conservation", "/impact", "/size-guide", "/fabric-care", "/shipping",
   "/returns", "/faq", "/contact", "/privacy", "/terms", "/shipping-policy", "/returns-policy",

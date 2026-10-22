@@ -73,9 +73,9 @@ export function CheckoutForm({
         ))}
         <p className="text-sm text-muted">Card numbers are entered on the provider&apos;s page. Returning here does not mark an order paid.</p>
       </fieldset>
-      <div className="flex flex-wrap gap-3">
-        <button formAction={quoteAction} className="h-11 border border-navy px-5 text-sm" disabled={quotePending}>{quotePending ? "Calculating…" : "Calculate total"}</button>
-        <button className="h-11 bg-navy px-5 text-sm text-ivory" disabled={pending || providers.length === 0 || methods.length === 0}>{pending ? "Placing order…" : "Place order and continue to payment"}</button>
+      <div className="grid gap-3 sm:flex sm:flex-wrap">
+        <button formAction={quoteAction} className="min-h-11 border border-navy px-5 text-sm" disabled={quotePending}>{quotePending ? "Calculating…" : "Calculate total"}</button>
+        <button className="min-h-11 bg-navy px-5 py-3 text-sm whitespace-normal text-ivory" disabled={pending || providers.length === 0 || methods.length === 0}>{pending ? "Placing order…" : "Place order and continue to payment"}</button>
       </div>
       {quote.message ? <p role="status">{quote.message}</p> : null}
       {state.message ? <p role="alert">{state.message}</p> : null}
