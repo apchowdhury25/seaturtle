@@ -34,9 +34,9 @@ export function SiteHeader() {
         <AnnouncementBar />
       </Suspense>
       <div className="mx-auto grid h-16 w-full max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-2 px-3 lg:h-20 lg:px-4">
-        <Link href="/" aria-label="Sea Turtle Apparel" className="flex min-w-0 items-center gap-3 text-navy">
-          <BrandMark className="shrink-0" />
-          <span className="hidden truncate font-display text-lg leading-none sm:inline sm:text-xl">Sea Turtle Apparel</span>
+        <Link href="/" aria-label="Sea Turtle Apparel" className="flex min-w-0 items-center gap-2 text-navy sm:gap-3">
+          <BrandMark className="h-10 shrink-0 sm:h-11" />
+          <span className="max-w-[6.6rem] font-display text-[13px] leading-[1.05] sm:max-w-none sm:truncate sm:text-xl sm:leading-none">Sea Turtle Apparel</span>
         </Link>
         <div className="min-w-0">
           <nav className="hidden items-center justify-end gap-6 text-sm lg:flex" aria-label="Primary">

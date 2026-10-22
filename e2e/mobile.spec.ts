@@ -8,6 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test("the phone menu reaches the women's catalog", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("banner").getByText("Sea Turtle Apparel")).toBeVisible();
   await page.getByRole("button", { name: "Open menu" }).click();
   const menu = page.getByRole("navigation", { name: "Mobile" });
   await expect(menu.getByRole("link", { name: "Shop All" })).toBeVisible();

@@ -8,6 +8,7 @@ test.beforeEach(async ({ page }) => {
 
 test("homepage plays the swimming clip inside the sea turtles band", async ({ page }) => {
   await page.goto("/");
+  await expect(page.getByRole("banner").getByText("Sea Turtle Apparel")).toBeVisible();
   await expect(page.getByRole("heading", { level: 1, name: "The Coastal Collection" })).toBeVisible();
   await page.getByRole("link", { name: "Shop Men" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Men" })).toBeVisible();
