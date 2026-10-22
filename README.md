@@ -37,7 +37,8 @@ npm run create-owner
 | Command | Purpose |
 | --- | --- |
 | `npm run dev` | Local server |
-| `npm run test` | Vitest |
+| `npm run test` | Vitest unit tests |
+| `npm run test:ui` | Browser UI tests in installed Chrome |
 | `npm run typecheck` | TypeScript |
 | `npm run lint` | ESLint |
 | `npm run build` | Production build |
@@ -46,6 +47,7 @@ npm run create-owner
 
 ## Where to read next
 
+- [QA](docs/QA.md) — unit tests, browser tests, and what a passing run means
 - [Activation](docs/ACTIVATION.md) — credentials and what stays off until they exist
 - [Deployment](docs/DEPLOYMENT.md) — Hostinger, DNS, SSL, webhooks
 - [Database](docs/DATABASE.md) — migrations, seed, backups, RLS
