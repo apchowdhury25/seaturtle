@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { supabaseProjectUrl, supabasePublicKey } from "@/lib/supabase-env";
 
 export async function proxy(request: NextRequest) {
   const host = request.headers.get("host") ?? "";
@@ -20,8 +21,8 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = supabaseProjectUrl();
+  const key = supabasePublicKey();
   let response = NextResponse.next({ request });
   if (!url || !key) return response;
   const supabase = createServerClient(url, key, {

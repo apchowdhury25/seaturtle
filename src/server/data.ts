@@ -3,6 +3,7 @@ import "server-only";
 import { connection } from "next/server";
 import { filterLookbook, getLookbookProduct, type LookbookProduct } from "@/content/lookbook";
 import { allowDemoCatalog } from "@/lib/env";
+import { supabaseProjectUrl } from "@/lib/supabase-env";
 import { activeUnitPrice, availableToSell } from "@/lib/commerce";
 import { createAdminClient, createPublicClient, createSessionClient } from "@/server/supabase";
 
@@ -125,7 +126,7 @@ function one<T>(value: T | T[] | null | undefined): T | null {
 export function mediaUrl(path: string | null | undefined): string | null {
   if (!path) return null;
   if (path.startsWith("/")) return path;
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const base = supabaseProjectUrl();
   if (!base) return null;
   return `${base}/storage/v1/object/public/product-images/${path}`;
 }

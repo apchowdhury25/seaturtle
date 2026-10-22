@@ -54,6 +54,8 @@ The value must be a full `https://` address. A word such as `test` stops the bui
 
 Keep the database on Supabase. Do not open Postgres to the public internet. The app uses the HTTPS API.
 
+`package.json` already depends on `@supabase/supabase-js` at `^2.118.0` and `@supabase/ssr`. That satisfies Hostinger's connect screen, which shows `^2.0.0`. Do not add a root `db.js`. The server creates the client. If that screen stores `SUPABASE_URL` and `SUPABASE_API_KEY`, the app reads them as the project URL and the publishable or anon key. Put the service-role key in `SUPABASE_SECRET_KEY` or `SUPABASE_SERVICE_ROLE_KEY`.
+
 Run migrations before the first production boot. See [DATABASE.md](DATABASE.md).
 
 Add the site URL and `https://seaturtleapparel.com/account` to Supabase Auth redirect URLs.

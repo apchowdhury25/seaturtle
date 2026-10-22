@@ -1,9 +1,11 @@
 import "server-only";
 
+import { supabaseProjectUrl, supabasePublicKey } from "@/lib/supabase-env";
+
 export type ServiceStatus = "ready" | "missing" | "partial";
 
 export function publicSupabaseKey(): string | undefined {
-  return process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  return supabasePublicKey();
 }
 
 export function secretSupabaseKey(): string | undefined {
@@ -51,11 +53,11 @@ export function paymentMode(): "test" | "live" {
 }
 
 export function isSupabaseConfigured(): boolean {
-  return Boolean(absoluteHttpUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) && publicSupabaseKey());
+  return Boolean(supabaseProjectUrl() && publicSupabaseKey());
 }
 
 export function isServiceRoleConfigured(): boolean {
-  return Boolean(absoluteHttpUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) && secretSupabaseKey());
+  return Boolean(supabaseProjectUrl() && secretSupabaseKey());
 }
 
 export function configurationReport(): Array<{ service: string; status: ServiceStatus; detail: string }> {
@@ -69,7 +71,7 @@ export function configurationReport(): Array<{ service: string; status: ServiceS
         ? service
           ? "Public and server keys are set."
           : "Public key is set. Server secret is missing, so checkout and admin writes are unavailable."
-        : "Set NEXT_PUBLIC_SUPABASE_URL and a publishable or anon key.",
+        : "Set NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL, and a publishable or anon key.",
     },
     {
       service: "Payments",

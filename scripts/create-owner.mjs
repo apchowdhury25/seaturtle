@@ -1,12 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const key = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+const url = (process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "").trim();
+const key = (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
 const email = process.env.OWNER_EMAIL;
 const password = process.env.OWNER_PASSWORD;
 
 if (!url || !key || !email || !password || password.length < 10) {
-  console.error("Set NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SECRET_KEY, OWNER_EMAIL, and OWNER_PASSWORD (10+ characters).");
+  console.error("Set NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL, SUPABASE_SECRET_KEY, OWNER_EMAIL, and OWNER_PASSWORD (10+ characters).");
   process.exit(1);
 }
 

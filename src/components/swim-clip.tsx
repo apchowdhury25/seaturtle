@@ -24,18 +24,26 @@ export function SwimClip() {
   }, []);
 
   return (
-    <div className="relative aspect-video w-full overflow-hidden bg-navy">
+    <div className="relative aspect-[960/944] w-full overflow-hidden bg-navy">
       <video
         ref={ref}
         className="absolute inset-0 h-full w-full object-cover"
-        width={1920}
-        height={1080}
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent)",
+          maskImage:
+            "linear-gradient(to right, transparent, #000 12%, #000 88%, transparent), linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent)",
+          WebkitMaskComposite: "source-in",
+          maskComposite: "intersect",
+        }}
+        width={960}
+        height={944}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
-        aria-label="Fish swimming"
+        aria-label="Sea turtles swimming among fish"
       >
         <source src="/videos/swimming.mp4" type="video/mp4" />
       </video>
