@@ -6,6 +6,7 @@ const isDev = process.env.NODE_ENV === "development";
 const contentSecurityPolicy = [
   "default-src 'self'",
   "img-src 'self' data: blob: https://*.supabase.co",
+  "media-src 'self'",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,

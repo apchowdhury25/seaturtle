@@ -67,7 +67,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-3">
-            <BrandMark inverted />
+            <BrandMark inverted className="h-12 lg:h-14" />
             <p className="font-display text-2xl">Sea Turtle Apparel</p>
           </div>
           <p className="mt-4 max-w-md text-sm text-sand">Wear the Change. Protect Our Oceans.</p>

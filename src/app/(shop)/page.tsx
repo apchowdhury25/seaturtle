@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import { SwimClip } from "@/components/swim-clip";
 import { BRAND, COLLECTIONS, LINE_LINKS } from "@/content/pages";
 import { formatMinor } from "@/lib/commerce";
 import { getCatalog } from "@/server/data";
@@ -168,15 +169,13 @@ export default function HomePage() {
       </section>
 
       <section className="bg-navy text-ivory">
-        <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl items-center gap-6 px-4 py-10 sm:gap-10 sm:py-14 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
           <div>
-            <h2 className="font-display text-4xl">Sea turtles</h2>
-            <p className="mt-4 text-sand">Their survival is tied to coasts and oceans that manufacturing must not treat as a drain. Cleaner production is a duty of its own. No payment to a partner is claimed until a record exists.</p>
+            <h2 className="font-display text-4xl sm:text-5xl">Sea turtles</h2>
+            <p className="mt-4 max-w-md text-sand">Their survival is tied to coasts and oceans that manufacturing must not treat as a drain. Cleaner production is a duty of its own. No payment to a partner is claimed until a record exists.</p>
             <Link href="/conservation" className="mt-6 inline-flex h-11 items-center border border-ivory px-5 text-sm">Our commitment</Link>
           </div>
-          <div className="relative min-h-72">
-            <Image src="/images/lookbook/sea-turtle.jpg" alt="A green sea turtle swimming in shallow water. Campaign photograph, not documentation of a funded project." fill className="object-cover" sizes="(min-width: 768px) 50vw, 100vw" />
-          </div>
+          <SwimClip />
         </div>
       </section>
     </>
